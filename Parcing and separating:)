@@ -1,0 +1,71 @@
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+public class Importing {
+
+    public static void main(String[] args) throws Exception {
+        List idList = new ArrayList();
+        List nameList = new ArrayList();
+        List yesList = new ArrayList();
+        List firstChoiceList = new ArrayList();
+        List secondChoiceList = new ArrayList();
+        List thirdChoiceList = new ArrayList();
+        List fourthChoiceList = new ArrayList();
+        List fifthChoiceList = new ArrayList();
+
+
+        File file = new File("C:\\Users\\Vedrana\\ProjectPeriod2\\data");
+
+        Scanner bae = new Scanner(file);
+
+        while (bae.hasNextLine()) {
+            String s = bae.nextLine();
+            String[] test = s.split("\t");
+            idList.add(test[0]);                //adds IDs to Id list
+            nameList.add(test[1]);              //fills Names list
+            yesList.add(test[2]);               //yeses
+            firstChoiceList.add(test[3]);       //makes list of 1 choices
+            secondChoiceList.add(test[4]);      //makes list of 2 choices
+            thirdChoiceList.add(test[5]);       //makes list of 3 choices
+            fourthChoiceList.add(test[6]);      //makes list of 4 choices
+            fifthChoiceList.add(test[7]);       //makes list of 5 choices
+
+        }
+
+
+        for(int i = 0; i < idList.size(); i++) {
+            System.out.println(idList.get(i));              //prints out ID list
+        }
+        System.out.println();
+        for (int i = 0; i < nameList.size(); i++) {
+            System.out.println(nameList.get(i));            //prints out Names
+        }
+        System.out.println();
+        for (int i = 0; i < yesList.size(); i++) {
+            System.out.println(yesList.get(i));             //prints list of whether student is in project
+        }
+        System.out.println();
+        for (int i = 0; i < firstChoiceList.size(); i++) {
+            System.out.println(firstChoiceList.get(i));     //prints first choices
+        }
+        System.out.println();
+        for (int i = 0; i < secondChoiceList.size(); i++) {
+            System.out.println(secondChoiceList.get(i));
+        }
+        System.out.println();
+        for (int i = 0; i < thirdChoiceList.size(); i++) {
+            System.out.println(thirdChoiceList.get(i));
+        }
+        System.out.println();
+        for (int i = 0; i < fourthChoiceList.size(); i++) {
+            System.out.println(fourthChoiceList.get(i));
+        }
+        System.out.println();
+        for (int i = 0; i < fifthChoiceList.size(); i++) {
+            System.out.println(fifthChoiceList.get(i));
+        }
+    }
+}
