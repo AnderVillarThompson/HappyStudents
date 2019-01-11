@@ -6,12 +6,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-//code from video: https://www.youtube.com/watch?v=ItV_qrRbImU 
-//code from video: https://www.youtube.com/watch?v=QeaXXpxNtq0
+
 public class Importing {
     static String [][] twoDimentionalArray;
 
-    static void setTwoDimentionalArray(){ //There is bunch of unnecessarily defined int here yet 
+    static void setTwoDimentionalArray(){
         twoDimentionalArray= new String [175][8];
         Scanner scanIn;
         int Rowc=0;
@@ -22,14 +21,14 @@ public class Importing {
         double xnum=0;
         String xfileLocation;
 
-        xfileLocation="/Users/birgit/Downloads/data2.csv";
+        xfileLocation="/Users/birgit/Downloads/Forprojects.csv";
         System.out.println("\n*******Setup Array *******");
 
         try{
             scanIn=new Scanner (new BufferedReader(new FileReader(xfileLocation)));
             while (scanIn.hasNextLine()){
                 Inputline=scanIn.nextLine();
-                String [] InArray= Inputline.split(",");
+                String [] InArray= Inputline.split(";");
                 for (int x=0; x<InArray.length;x++){
                     twoDimentionalArray[Rowc][x]=InArray[x];
                 }
@@ -47,20 +46,17 @@ public class Importing {
         int Cols=0;
         String Inputline="";
 
-        //DateFormat xdateFormat =new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-        //Date mydate =new Date();
-        //String xfdate=xdateFormat.format(mydate);
         System.out.println("\n*******Rows Colomns*****");
 
         try{
             String xfileLocation;
-            xfileLocation="/Users/birgit/Downloads/data2.csv";
+            xfileLocation="/Users/birgit/Downloads/Forprojects.csv";
             scanIn= new Scanner(new BufferedReader(new FileReader(xfileLocation)));
             scanIn.useDelimiter(",");
 
             while (scanIn.hasNextLine()){
                 Inputline=scanIn.nextLine();
-                String[] InArray = Inputline.split(",");
+                String[] InArray = Inputline.split(";");
                 Rows++;
                 Cols=InArray.length;
             }
@@ -82,7 +78,10 @@ public class Importing {
     }
 
     public static void main(String[] args) throws Exception {
+
         setTwoDimentionalArray();
         getNumOfRowsCols();
+
+
     }
 }
