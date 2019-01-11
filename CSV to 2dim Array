@@ -1,0 +1,88 @@
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+//code from video: https://www.youtube.com/watch?v=ItV_qrRbImU 
+//code from video: https://www.youtube.com/watch?v=QeaXXpxNtq0
+public class Importing {
+    static String [][] twoDimentionalArray;
+
+    static void setTwoDimentionalArray(){ //There is bunch of unnecessarily defined int here yet 
+        twoDimentionalArray= new String [175][8];
+        Scanner scanIn;
+        int Rowc=0;
+        int Row=0;
+        int Colc=0;
+        int Col=0;
+        String Inputline="";
+        double xnum=0;
+        String xfileLocation;
+
+        xfileLocation="/Users/birgit/Downloads/data2.csv";
+        System.out.println("\n*******Setup Array *******");
+
+        try{
+            scanIn=new Scanner (new BufferedReader(new FileReader(xfileLocation)));
+            while (scanIn.hasNextLine()){
+                Inputline=scanIn.nextLine();
+                String [] InArray= Inputline.split(",");
+                for (int x=0; x<InArray.length;x++){
+                    twoDimentionalArray[Rowc][x]=InArray[x];
+                }
+                Rowc++;
+            }
+        }catch (Exception e){
+            System.out.println(e);
+        }
+        printMyArray();
+        return;
+    }
+    static void getNumOfRowsCols(){
+        Scanner scanIn=null;
+        int Rows=0;
+        int Cols=0;
+        String Inputline="";
+
+        //DateFormat xdateFormat =new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        //Date mydate =new Date();
+        //String xfdate=xdateFormat.format(mydate);
+        System.out.println("\n*******Rows Colomns*****");
+
+        try{
+            String xfileLocation;
+            xfileLocation="/Users/birgit/Downloads/data2.csv";
+            scanIn= new Scanner(new BufferedReader(new FileReader(xfileLocation)));
+            scanIn.useDelimiter(",");
+
+            while (scanIn.hasNextLine()){
+                Inputline=scanIn.nextLine();
+                String[] InArray = Inputline.split(",");
+                Rows++;
+                Cols=InArray.length;
+            }
+        } catch (Exception e){
+            System.out.println(e);
+        }
+        System.out.println("\n\nRows = " +Rows +"\nCols = "+ Cols );
+        return;
+    }
+    static void printMyArray(){
+        for (int Rowc=0; Rowc<174;Rowc++){
+            for (int Colc =0; Colc < 8; Colc++){
+                System.out.println(twoDimentionalArray[Rowc][Colc]+ "  ");
+
+            }
+            System.out.println();
+        }
+        return;
+    }
+
+    public static void main(String[] args) throws Exception {
+        setTwoDimentionalArray();
+        getNumOfRowsCols();
+    }
+}
