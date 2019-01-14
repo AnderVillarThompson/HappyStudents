@@ -1,0 +1,83 @@
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+public class ChoiceLoader {
+
+    static String[][] setTwoDimentionalArray(String Location, int Cols){
+
+        Scanner scanIn;
+        String Inputline="";
+        String[][]twoDimentionalArray=null;
+        int Rows=0;
+        try{
+            String [] InArray=null;
+            scanIn=new Scanner (new BufferedReader(new FileReader(Location)));
+
+            while (scanIn.hasNextLine()){
+                Inputline+=scanIn.nextLine()+",";
+                Rows++;
+            }
+            InArray= Inputline.split(",");
+            twoDimentionalArray= new String [Rows][Cols+2];
+            for (int i = 0; i<Rows; i++){
+                twoDimentionalArray[i][Cols]="0";
+                twoDimentionalArray[i][Cols+1]="0";
+            }
+
+            int k = 0;
+            for (int i = 0; i<Rows; i++){
+                for (int j = 0; j<Cols; j++) {
+                    twoDimentionalArray[i][j]=InArray[k];
+                    k++;
+                }
+            }
+
+
+        }catch (Exception e){
+            System.out.println(e);
+        }
+       // printMyArray(twoDimentionalArray,Rows,Cols);
+        return twoDimentionalArray;
+    }
+    static String[][] getNumOfRowsCols(String Location){
+        Scanner scanIn=null;
+        int Rows=0;
+        int Cols=0;
+        String Inputline="";
+
+        try{
+            scanIn= new Scanner(new BufferedReader(new FileReader(Location)));
+            scanIn.useDelimiter(",");
+
+            while (scanIn.hasNextLine()){
+                Inputline=scanIn.nextLine();
+                String[] InArray = Inputline.split(",");
+                Rows++;
+                Cols=InArray.length;
+            }
+        } catch (Exception e){
+            System.out.println(e);
+        }
+
+        //System.out.println("\n\nRows = " +Rows +"\nCols = "+ Cols );
+        return setTwoDimentionalArray(Location,Cols);
+    }
+    static void printMyArray(String [][]twoDimentionalArray, int Rows, int Cols){
+        for (int Rowc=0; Rowc<Rows;Rowc++){
+            for (int Colc =0; Colc < Cols+2; Colc++){
+                System.out.print(twoDimentionalArray[Rowc][Colc]+ "\t");
+
+            }
+            System.out.println();
+        }
+        return;
+    }
+
+
+}
