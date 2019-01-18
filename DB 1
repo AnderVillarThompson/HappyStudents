@@ -1,0 +1,139 @@
+
+
+<!DOCTYPE html>
+<html>
+<body>
+
+<?php
+
+// CREATE CONNECTION
+$servername = "localhost";
+$username = "root";
+$password = "root";
+$dbname = "ProjectAssigner";
+
+$conn = new mysqli($servername, $username, $password, $dbname,8889,'/Applications/MAMP/tmp/mysql/mysql.sock');
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+?>
+
+<h1>Fill-in the necessary data</h1>
+
+
+<!-- HTML FORM -->
+<form action="incorrectinfo.module" method="post" enctype="multipart/form-data">
+    Student info:<br>
+    <input type="file" name="student_info"><br>
+    Project selection:<br>
+    <input type="file" name="project_selection"><br>
+    Project info:<br>
+    <input type="file" name="project_info"><br>
+
+    <input type="submit" value="Submit">
+</form>
+
+
+<?php
+
+// help php to correctly parse the .csv files.
+ini_set('auto_detect_line_endings', true);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+$form_has_been_uploaded = boolval(isset($_FILES['student_info']) && isset($_FILES['project_info']) && isset($_FILES['project_selection']));
+
+
+if ($form_has_been_uploaded) {
+
+    //deletes what was on the table before uploading the new file
+    $conn->query('TRUNCATE TABLE `STUDENT`');
+
+    $student_info = $_FILES['student_info'];
+    if (($handle = fopen($student_info['tmp_name'], 'r')) !== FALSE) {
+        while (($data = fgetcsv($handle, 1000, ';')) !== FALSE) {
+
+            //protect the code from SQL injection
+            $full_name = $conn->real_escape_string($data[0]);
+            $student_id = $conn->real_escape_string($data[1]);
+            $email = $conn->real_escape_string($data[2]);
+
+            //add information to table on mySQL
+            $sql = "INSERT INTO `STUDENT` (`names`, `IDs`, `email`) VALUES ('$full_name', '$student_id', '$email')";
+            $conn->query($sql);
+            echo $conn->error;
+        }
+        fclose($handle);
+        var_dump($student_info);
+    }
+
+
+    //deletes what was on the table before uploading the new file
+    $conn->query('TRUNCATE TABLE `PROJECT`');
+
+    $student_info = $_FILES['project_info'];
+    if (($handle = fopen($student_info['tmp_name'], 'r')) !== FALSE) {
+        while (($data = fgetcsv($handle, 1000, ';')) !== FALSE) {
+
+            //protect the code from SQL injection
+            $project_id = $conn->real_escape_string($data[0]);
+            $project_name = $conn->real_escape_string($data[1]);
+            $min = $conn->real_escape_string($data[2]);
+            $max = $conn->real_escape_string($data[3]);
+            $must_run = $conn->real_escape_string($data[4]);
+            $student_lead= $conn->real_escape_string($data[5]);
+            $project_description = $conn->real_escape_string($data[6]);
+
+            //add information to table on mySQL
+            $sql = "INSERT INTO `PROJECT` (`IDp`, `namep`, `min`, `max`, `must_run`, `student_lead`, `description`)
+ VALUES ('$project_id', '$project_name', '$min', '$max', '$must_run', '$student_lead', '$project_description')";
+            $conn->query($sql);
+            echo $conn->error;
+        }
+        fclose($handle);
+    }
+
+
+    //deletes what was on the table before uploading the new file
+    $conn->query('TRUNCATE TABLE `PROJECT_SELECTION`');
+
+    $student_info = $_FILES['project_selection'];
+    if (($handle = fopen($student_info['tmp_name'], 'r')) !== FALSE) {
+        while (($data = fgetcsv($handle, 1000, ';')) !== FALSE) {
+
+            //protect the code from SQL injection
+            $full_name = $conn->real_escape_string($data[0]);
+            $student_id = $conn->real_escape_string($data[1]);
+            $email = $conn->real_escape_string($data[2]);
+            $first_choice = $conn->real_escape_string($data[3]);
+            $second_choice = $conn->real_escape_string($data[4]);
+            $third_choice= $conn->real_escape_string($data[5]);
+            $fourth_choice = $conn->real_escape_string($data[6]);
+            $fifth_choice = $conn->real_escape_string($data[7]);
+            $student_lead = $conn->real_escape_string($data[8]);
+            $responded = $conn->real_escape_string($data[9]);
+
+
+            //add information to table on mySQL
+            $sql = "INSERT INTO `PROJECT_SELECTION` (`names`, `IDs`, `email`, `first_choice`, `second_choice`, `third_choice`, `fourth_choice`, `fifth_choice`, `student_lead`, `responded`) 
+VALUES ('$full_name', '$student_id', '$email', '$first_choice ', '$second_choice', '$third_choice', '$fourth_choice', '$fifth_choice', '$student_lead', '$responded')";
+            $conn->query($sql);
+            echo $conn->error;
+
+        }
+        fclose($handle);
+    }
+
+}
+
+?>
+
+
+</body>
+</html>
+
+
+
