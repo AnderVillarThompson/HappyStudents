@@ -1,0 +1,64 @@
+
+
+<!DOCTYPE html>
+<html>
+<body>
+
+<?php
+/**
+ * Created by IntelliJ IDEA.
+ * User: lunafon
+ * Date: 16/01/2019
+ * Time: 16:32
+ */
+
+
+// help php to correctly parse the .csv files.
+ini_set('auto_detect_line_endings', true);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+// CREATE CONNECTION
+$servername = "localhost";
+$username = "root";
+$password = "root";
+$dbname = "ProjectAssigner";
+
+$conn = new mysqli($servername, $username, $password, $dbname,8889,'/Applications/MAMP/tmp/mysql/mysql.sock');
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+?>
+
+<h2>These students did not fill-in the form OR filled it with incorrect name, id or email</h2>
+<?php
+
+$res = $conn->query("SELECT STUDENT.names AS 'name', STUDENT.IDs AS 'id', STUDENT.email AS 'e-mail'
+FROM STUDENT LEFT JOIN PROJECT_SELECTION
+ON STUDENT.names = PROJECT_SELECTION.names && STUDENT.IDs = PROJECT_SELECTION.IDs && STUDENT.email = PROJECT_SELECTION.email
+WHERE PROJECT_SELECTION.names IS NULL OR PROJECT_SELECTION.IDs IS NULL OR PROJECT_SELECTION.email IS NULL");
+
+while($row = $res->fetch_assoc()){
+    echo "name =".$row['name']."<br>";
+    echo "ID =".$row['id']."<br>";
+    echo "e-mail =".$row['e-mail']."<br>";
+
+}
+
+$conn->close();
+?>
+
+<h2>Do you still wish to continue assigning the projects?</h2>
+
+<form action="schoolthing.php" method="get">
+    <button type="submit">No, I will upload the files again</button><br>
+    <button type="submit" formaction="assigndespite.php">Yes, exclude these students and assign the rest</button>
+</form>
+
+</body>
+</html>
+
