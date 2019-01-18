@@ -199,3 +199,5 @@ public class LockMatch {
         return x;
     }
 }
+
+https://stackoverflow.com/questions/31135372/compare-two-string-in-java-result-in-percentage (reference)
